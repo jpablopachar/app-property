@@ -13,9 +13,9 @@ public class LoadDatabase
             {
                 UserName = "admin",
                 Email = "admin1@yopmail.com",
-                name = "Admin",
-                lastName = "Admin",
-                phone = "1234567890"
+                Name = "Admin",
+                LastName = "Admin",
+                Phone = "1234567890"
             };
 
             await userManager.CreateAsync(user, "Admin123*");
@@ -26,27 +26,27 @@ public class LoadDatabase
             context.Properties.AddRange(
                 new Models.Property
                 {
-                    name = "Casa en el campo",
-                    address = "Calle falsa 123",
-                    price = 200000,
-                    picture = "https://picsum.photos/200/300",
-                    createdAt = DateTime.Now
+                    Name = "Casa en el campo",
+                    Address = "Calle falsa 123",
+                    Price = 200000,
+                    Picture = "https://picsum.photos/200/300",
+                    CreatedAt = DateTime.Now
                 },
                 new Models.Property
                 {
-                    name = "Casa en la ciudad",
-                    address = "Calle falsa 456",
-                    price = 100000,
-                    picture = "https://picsum.photos/200/300",
-                    createdAt = DateTime.Now
+                    Name = "Casa en la ciudad",
+                    Address = "Calle falsa 456",
+                    Price = 100000,
+                    Picture = "https://picsum.photos/200/300",
+                    CreatedAt = DateTime.Now
                 },
                 new Models.Property
                 {
-                    name = "Casa en la playa",
-                    address = "Calle falsa 789",
-                    price = 300000,
-                    picture = "https://picsum.photos/200/300",
-                    createdAt = DateTime.Now
+                    Name = "Casa en la playa",
+                    Address = "Calle falsa 789",
+                    Price = 300000,
+                    Picture = "https://picsum.photos/200/300",
+                    CreatedAt = DateTime.Now
                 }
             );
 

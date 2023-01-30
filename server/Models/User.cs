@@ -4,8 +4,8 @@ namespace server.Models
 {
     public class User : IdentityUser
     {
-        public string? name { get; set; }
-        public string? lastName { get; set; }
-        public string? phone { get; set; }
+        public string? Name { get; set; }
+        public string? LastName { get; set; }
+        public string? Phone { get; set; }
     }
 }

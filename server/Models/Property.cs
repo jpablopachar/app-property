@@ -7,14 +7,15 @@ namespace server.Models
     {
 		[Key]
 		[Required]
-        public int propertyId { get; set; }
-		public string? name { get; set; }
-		public string? address { get; set; }
+        public int PropertyId { get; set; }
+		public string? Name { get; set; }
+		public string? Address { get; set; }
 
 		[Required]
 		[Column(TypeName = "decimal(18,4)")]
-		public int? price { get; set; }
-		public string? picture { get; set; }
-		public DateTime? createdAt { get; set; }
+		public int? Price { get; set; }
+		public string? Picture { get; set; }
+		public DateTime? CreatedAt { get; set; }
+		public Guid? UserId { get; set; }
     }
 }
