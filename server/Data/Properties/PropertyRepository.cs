@@ -1,4 +1,7 @@
+using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using server.Middlewares;
 using server.Models;
 using server.Token;
 
@@ -21,32 +24,42 @@ namespace server.Data.Properties
         {
             var user = await _userManager.FindByIdAsync(_userSession.getUserSession());
 
+            if (user is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El usuario es inválido." });
+            }
+
+            if (property is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.BadRequest, new { message = "Los datos del inmueble son incorrectos." });
+            }
+
             property.CreatedAt = DateTime.Now;
             property.UserId = Guid.Parse(user!.Id);
 
-            _context.Properties.Add(property);
+            await _context.Properties.AddAsync(property);
         }
 
-        public void DeleteProperty(Property property)
+        public async Task DeleteProperty(int id)
         {
-            var properties = _context.Properties!.FirstOrDefault(property => property.PropertyId == property.PropertyId);
+            var property = await _context.Properties!.FirstOrDefaultAsync(property => property.PropertyId == id);
 
-            _context.Properties.Remove(properties!);
+            _context.Properties!.Remove(property!);
         }
 
-        public IEnumerable<Property> GetAllProperties()
+        public async Task<IEnumerable<Property>> GetAllProperties()
         {
-            return _context.Properties!.ToList();
+            return await _context.Properties!.ToListAsync();
         }
 
-        public Property GetPropertyById(int id)
+        public async Task<Property> GetProperty(int id)
         {
-            return _context.Properties!.FirstOrDefault(property => property.PropertyId == id)!;
+            return await _context.Properties!.FirstOrDefaultAsync(property => property.PropertyId == id)!;
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return (_context.SaveChanges() >= 0);
+            return ((await _context.SaveChangesAsync()) >= 0);
         }
     }
 }

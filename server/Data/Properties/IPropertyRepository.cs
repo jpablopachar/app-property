@@ -4,14 +4,14 @@ namespace server.Data.Properties
 {
     public interface IPropertyRepository
     {
-        bool SaveChanges();
+        Task<bool> SaveChanges();
 
-        IEnumerable<Property> GetAllProperties();
+        Task<IEnumerable<Property>> GetAllProperties();
 
-        Property GetPropertyById(int id);
+        Task<Property> GetProperty(int id);
 
         Task CreateProperty(Property property);
 
-        void DeleteProperty(Property property);
+        Task DeleteProperty(int id);
     }
 }

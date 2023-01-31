@@ -1,5 +1,8 @@
+using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using server.Dtos.UserDtos;
+using server.Middlewares;
 using server.Models;
 using server.Token;
 
@@ -40,6 +43,11 @@ namespace server.Data.Users
         {
             var user = await _userManager.FindByIdAsync(_userSession.getUserSession());
 
+            if (user is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El usuario no se encuentra registrado." });
+            }
+
             return TransformerUserToUserDto(user!);
         }
 
@@ -47,13 +55,37 @@ namespace server.Data.Users
         {
             var user = await _userManager.FindByEmailAsync(userLoginRequestDto.Email!);
 
-            await _signInManager.CheckPasswordSignInAsync(user!, userLoginRequestDto.Password!, false);
+            if (user is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El email no se encuentra registrado." });
+            }
 
-            return TransformerUserToUserDto(user!);
+            var res = await _signInManager.CheckPasswordSignInAsync(user!, userLoginRequestDto.Password!, false);
+
+            if (res.Succeeded)
+            {
+                return TransformerUserToUserDto(user);
+            }
+
+            throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "La contraseña es incorrecta." });
         }
 
         public async Task<UserResponseDto> SignUp(UserRegisterRequestDto userRegisterRequestDto)
         {
+            var existEmail = await _context.Users.Where(user => user.Email == userRegisterRequestDto.Email).AnyAsync();
+
+            if (existEmail)
+            {
+                throw new MiddlewareException(HttpStatusCode.BadRequest, new { message = "El email ya se encuentra registrado." });
+            }
+
+            var existUserName = await _context.Users.Where(user => user.UserName == userRegisterRequestDto.UserName).AnyAsync();
+
+            if (existUserName)
+            {
+                throw new MiddlewareException(HttpStatusCode.BadRequest, new { message = "El nombre de usuario ya se encuentra registrado." });
+            }
+
             var user = new User
             {
                 Name = userRegisterRequestDto.Name,
@@ -63,9 +95,14 @@ namespace server.Data.Users
                 Phone = userRegisterRequestDto.Phone
             };
 
-            await _userManager.CreateAsync(user, userRegisterRequestDto.Password!);
+            var res = await _userManager.CreateAsync(user, userRegisterRequestDto.Password!);
 
-            return TransformerUserToUserDto(user);
+            if (res.Succeeded)
+            {
+                return TransformerUserToUserDto(user);
+            }
+
+            throw new MiddlewareException(HttpStatusCode.BadRequest, new { message = "No se pudo registrar el usuario." });
         }
     }
 }
