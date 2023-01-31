@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace server.Token
 {
-    public class UserSession
+    public class UserSession : IUserSession
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
