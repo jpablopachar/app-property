@@ -15,5 +15,5 @@ public class AppDbContext : IdentityDbContext<User>
         base.OnModelCreating(builder);
     }
 
-    public DbSet<Property> Properties { get; set; }
+    public DbSet<Property>? Properties { get; set; }
 }

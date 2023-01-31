@@ -21,9 +21,9 @@ public class LoadDatabase
             await userManager.CreateAsync(user, "Admin123*");
         }
 
-        if (!context.Properties.Any())
+        if (!context.Properties!.Any())
         {
-            context.Properties.AddRange(
+            context.Properties!.AddRange(
                 new Models.Property
                 {
                     Name = "Casa en el campo",

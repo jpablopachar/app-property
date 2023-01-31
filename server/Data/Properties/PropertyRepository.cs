@@ -37,7 +37,7 @@ namespace server.Data.Properties
             property.CreatedAt = DateTime.Now;
             property.UserId = Guid.Parse(user!.Id);
 
-            await _context.Properties.AddAsync(property);
+            await _context.Properties!.AddAsync(property);
         }
 
         public async Task DeleteProperty(int id)

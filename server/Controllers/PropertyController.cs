@@ -13,7 +13,7 @@ namespace server.Controllers
     public class PropertyController : ControllerBase
     {
         private readonly IPropertyRepository _propertyRepository;
-        private readonly IMapper _mapper;
+        private IMapper _mapper;
 
         public PropertyController(IPropertyRepository propertyRepository, IMapper mapper)
         {
@@ -26,7 +26,7 @@ namespace server.Controllers
         {
             var properties = await _propertyRepository.GetAllProperties();
 
-            return Ok(_mapper.Map<IEnumerable<PropertyRequestDto>>(properties));
+            return Ok(_mapper.Map<IEnumerable<PropertyResponseDto>>(properties));
         }
 
         [HttpGet("{id}", Name = "GetPropertyById")]

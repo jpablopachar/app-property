@@ -17,10 +17,10 @@ using server.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(option =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    option.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information).EnableSensitiveDataLogging();
-    option.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
+    options.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information).EnableSensitiveDataLogging();
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
 });
 
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();

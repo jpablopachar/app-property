@@ -6,14 +6,14 @@ using server.Models;
 
 namespace server.Token
 {
-    public interface JwtGenerator : IJwtGenerator
+    public class JwtGenerator : IJwtGenerator
     {
-        public new string CreateToken(User user)
+        public string CreateToken(User user)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName!),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim("email", user.Email!),
                 new Claim("userId", user.Id!)
             };
 
