@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "app-property-bc849": {
+      "hosting": {
+        "client": [
+          "app-property-bc849"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "app-property-bc849"
+  }
+}
