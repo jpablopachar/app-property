@@ -17,20 +17,20 @@ namespace server.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("ingresar")]
+        [HttpPost("login")]
         public async Task<ActionResult<UserResponseDto>> SignIn([FromBody] UserLoginRequestDto userLoginRequestDto)
         {
             return await _userRepository.SignIn(userLoginRequestDto);
         }
 
         [AllowAnonymous]
-        [HttpPost("registrar")]
+        [HttpPost("register")]
         public async Task<ActionResult<UserResponseDto>> SignUp([FromBody] UserRegisterRequestDto userRegisterRequestDto)
         {
             return await _userRepository.SignUp(userRegisterRequestDto);
         }
 
-        [HttpPost("login")]
+        [HttpGet]
         public async Task<ActionResult<UserResponseDto>> GetUser()
         {
             return await _userRepository.GetUser();

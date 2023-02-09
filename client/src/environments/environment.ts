@@ -8,5 +8,6 @@ export const environment = {
     authDomain: 'app-property-bc849.firebaseapp.com',
     messagingSenderId: '1004723994833',
   },
-  production: false
+  production: false,
+  url: 'http://localhost:5220/'
 }
