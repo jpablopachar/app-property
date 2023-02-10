@@ -22,7 +22,7 @@ namespace server.Data.Properties
 
         public async Task CreateProperty(Property property)
         {
-            var user = await _userManager.FindByIdAsync(_userSession.getUserSession());
+            var user = await _userManager.FindByNameAsync(_userSession.getUserSession());
 
             if (user is null)
             {

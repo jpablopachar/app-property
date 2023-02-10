@@ -4,6 +4,7 @@ import {
   FirebaseApp, initializeApp, provideFirebaseApp
 } from '@angular/fire/app'
 import { Auth, getAuth, provideAuth } from '@angular/fire/auth'
+import { AngularFireModule } from '@angular/fire/compat'
 import {
   Firestore,
   getFirestore,
@@ -32,7 +33,6 @@ import { HeaderComponent, MenuListComponent } from './components'
 import { AuthInterceptor } from './interceptors'
 import { NotificationModule } from './services'
 import { effects, reducers } from './store'
-// import { effects, reducers } from './store'
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, MenuListComponent],
@@ -46,17 +46,19 @@ import { effects, reducers } from './store'
     provideFirestore((): Firestore => getFirestore()),
     provideStorage((): FirebaseStorage => getStorage()),
     provideAuth((): Auth => getAuth()),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
+    AngularFireModule.initializeApp(environment.firebase),
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictActionImmutability: true,
-        strictStateImmutability: true,
-      },
+        strictStateImmutability: true
+      }
     }),
     EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+      autoPause: true
+    }),
     NotificationModule.forRoot(),
     MatSidenavModule,
     MatToolbarModule,

@@ -1,7 +1,5 @@
-import { CommonModule } from '@angular/common'
 import { Component, Inject } from '@angular/core'
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { UploadComponent } from './components/upload/upload.component'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 export interface DialogData {
   multiple: boolean;
@@ -10,8 +8,6 @@ export interface DialogData {
 
 @Component({
   selector: 'app-files-upload',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, UploadComponent],
   templateUrl: './files-upload.component.html',
   styleUrls: ['./files-upload.component.scss'],
 })

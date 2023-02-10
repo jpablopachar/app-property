@@ -29,8 +29,8 @@ namespace server.Controllers
             return Ok(_mapper.Map<IEnumerable<PropertyResponseDto>>(properties));
         }
 
-        [HttpGet("{id}", Name = "GetPropertyById")]
-        public async Task<ActionResult<IEnumerable<PropertyResponseDto>>> GetProperty(int id)
+        [HttpGet("{propertyId}", Name = "GetProperty")]
+        public async Task<ActionResult<PropertyResponseDto>> GetProperty(int id)
         {
             var property = await _propertyRepository.GetProperty(id);
 
@@ -39,11 +39,11 @@ namespace server.Controllers
                 throw new MiddlewareException(HttpStatusCode.NotFound, new { message = "El inmueble no existe." });
             }
 
-            return Ok(_mapper.Map<IEnumerable<PropertyResponseDto>>(property));
+            return Ok(_mapper.Map<PropertyResponseDto>(property));
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<PropertyResponseDto>>> CreateProperty([FromBody] PropertyRequestDto propertyRequestDto)
+        public async Task<ActionResult<PropertyResponseDto>> CreateProperty([FromBody] PropertyRequestDto propertyRequestDto)
         {
             var property = _mapper.Map<Property>(propertyRequestDto);
 
@@ -55,7 +55,7 @@ namespace server.Controllers
             return CreatedAtRoute(nameof(GetProperty), new { propertyResponseDto.PropertyId }, propertyResponseDto);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{propertyId}")]
         public async Task<ActionResult> DeleteProperty(int id)
         {
             await _propertyRepository.DeleteProperty(id);

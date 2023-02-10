@@ -41,11 +41,11 @@ namespace server.Data.Users
 
         public async Task<UserResponseDto> GetUser()
         {
-            var user = await _userManager.FindByIdAsync(_userSession.getUserSession());
+            var user = await _userManager.FindByNameAsync(_userSession.getUserSession());
 
             if (user is null)
             {
-                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El usuario no se encuentra registrado." });
+                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El usuario del token no se encuentra registrado." });
             }
 
             return TransformerUserToUserDto(user!);

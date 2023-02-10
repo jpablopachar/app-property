@@ -99,7 +99,7 @@ export class UserEffects {
         switchMap((token) => {
           if (token) {
             return this._httpClient
-              .get<User>(`${environment.url}api/usuario`)
+              .get<User>(`${environment.url}api/user`)
               .pipe(
                 tap((user: User) => {
                   console.log('Data del usuario del servidor: ', user);

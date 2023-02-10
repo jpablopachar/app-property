@@ -1,6 +1,6 @@
 export enum UserTypes {
   INIT = '[User] Init: Start',
-  INIT_AUTHORIZED = '[User] Init:Authorized',
+  INIT_AUTHORIZED = '[User] Init: Authorized',
   INIT_UNAUTHORIZED = '[User] Init: Unauthorized',
   INIT_ERROR = '[User] Init: Error',
 

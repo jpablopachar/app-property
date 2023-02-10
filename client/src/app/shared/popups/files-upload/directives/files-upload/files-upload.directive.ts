@@ -1,16 +1,14 @@
 import {
   Directive,
   EventEmitter,
-  HostListener,
-  Input,
+  HostListener, Input,
   Output
 } from '@angular/core'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { FilesUploadComponent } from '../../files-upload.component'
 
 @Directive({
-  selector: '[appFilesUpload]',
-  standalone: true
+  selector: '[appFilesUpload]'
 })
 export class FilesUploadDirective {
   @Input() multiple!: boolean;
