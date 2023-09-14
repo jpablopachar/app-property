@@ -11,14 +11,14 @@ namespace server.Data
             {
                 var user = new User
                 {
-                    Name = "Test User",
-                    LastName = "Test User",
-                    Email = "jppachar@gmail.com",
+                    Name = "Juan",
+                    LastName = "Pachar",
+                    Email = "jppachar@yopmail.com",
                     UserName = "jppachar",
-                    Phone = "0991883896"
+                    Phone = "+593991883896"
                 };
 
-                await userManager.CreateAsync(user, "alaoa");
+                await userManager.CreateAsync(user, "Jppachar1993@");
             }
 
             if (!context.Properties!.Any())
@@ -27,14 +27,14 @@ namespace server.Data
                     new Property
                     {
                         Name = "Casa",
-                        Address = "Calle 1",
-                        Price = 100000,
+                        Address = "La Pileta",
+                        Price = 50000,
                         CreatedDate = DateTime.Now,
                     },
                     new Property
                     {
-                        Name = "Casa",
-                        Address = "Calle 1",
+                        Name = "Finca",
+                        Address = "Obrapia",
                         Price = 100000,
                         CreatedDate = DateTime.Now,
                     }
