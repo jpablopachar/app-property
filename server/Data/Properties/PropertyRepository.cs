@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using server.Middlewares;
 using server.Models;
 using server.Token;
 
@@ -21,29 +20,46 @@ namespace server.Data.Properties
             _userManager = userManager;
         }
 
-        public Task CreateProperty(Property property)
+        public async Task CreateProperty(Property property)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(_userSession.GetUserSession());
+
+            if (user is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.Unauthorized, new { message = "El usuario no es valido para hacer esta inserción" });
+            }
+
+            if (property is null)
+            {
+                throw new MiddlewareException(HttpStatusCode.BadRequest, new { message = "Los datos de la propiedad son incorrectos." });
+            }
+
+            property.CreatedDate = DateTime.Now;
+            property.UserId = Guid.Parse(user!.Id);
+
+            await _context.Properties!.AddAsync(property);
         }
 
-        public Task DeleteProperty(int id)
+        public async Task DeleteProperty(int id)
         {
-            throw new NotImplementedException();
+            var property = await _context.Properties!.FirstOrDefaultAsync(p => p.Id == id);
+
+            _context.Properties!.Remove(property!);
         }
 
-        public Task<IEnumerable<Property>> GetAllProperties()
+        public async Task<IEnumerable<Property>> GetAllProperties()
         {
-            throw new NotImplementedException();
+            return await _context.Properties!.ToListAsync();
         }
 
-        public Task<Property> GetPropertyById(int id)
+        public async Task<Property> GetPropertyById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Properties!.FirstOrDefaultAsync(p => p.Id == id)!;
         }
 
-        public Task<bool> SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() >= 0;
         }
     }
 }
