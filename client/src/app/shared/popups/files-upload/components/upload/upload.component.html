@@ -10,7 +10,6 @@
             {{ snapshot().bytesTransferred | fileSize }} of
             {{ snapshot().totalBytes | fileSize }}
         </div>
-
         <div>
             <div *ngIf="downloadURL; then completed; else inProgress"></div>
             <ng-template #completed>

@@ -5,9 +5,9 @@ import {
   Input,
   OnInit,
   Output,
-  Signal,
+  WritableSignal,
   inject,
-  signal,
+  signal
 } from '@angular/core'
 import {
   Storage,
@@ -16,18 +16,19 @@ import {
   UploadTaskSnapshot,
   percentage,
   ref,
-  uploadBytesResumable
+  uploadBytesResumable,
 } from '@angular/fire/storage'
 import { Observable } from 'rxjs'
+import { FileSizePipe } from '../../pipes'
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FileSizePipe],
   templateUrl: './upload.component.html',
   styles: [
     `
-      @import 'styles/colors';
+      @import 'src/styles/colors';
 
       .upload {
         padding: 12px;
@@ -66,13 +67,13 @@ export class UploadComponent implements OnInit {
 
   private _storage: Storage = inject(Storage);
 
-  public task!: Signal<UploadTask>;
-  public snapshot!: Signal<UploadTaskSnapshot>;
+  public task!: WritableSignal<UploadTask>;
+  public snapshot!: WritableSignal<UploadTaskSnapshot>;
   public percentage$!: Observable<{
     progress: number;
     snapshot: UploadTaskSnapshot;
   }>;
-  public downloadURL!: Signal<string>;
+  public downloadURL!: WritableSignal<string>;
 
   constructor() {
     this.completed = new EventEmitter<string>();
