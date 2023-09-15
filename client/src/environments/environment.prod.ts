@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  name: 'prod',
+  name: 'production',
   url: 'http://localhost:5000/api',
   firebase: {
     config: {

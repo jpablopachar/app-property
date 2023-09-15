@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run start:dev",
+    "build": "npm run build:dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "start:dev": "ng serve --configuration development --hmr",
+    "build:dev": "ng build --configuration development",
+    "start:prod": "ng serve --configuration production",
+    "build:prod": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
@@ -18,10 +22,12 @@
     "@angular/core": "^16.0.0",
     "@angular/fire": "^7.6.1",
     "@angular/forms": "^16.0.0",
+    "@angular/localize": "^16.0.0",
     "@angular/material": "^16.0.0",
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "ngx-image-cropper": "^7.0.2",
     "rxfire": "^6.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
