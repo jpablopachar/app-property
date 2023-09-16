@@ -1,8 +1,0 @@
-<button (click)="onToggleSpinner()">Toggle spinner</button>
-<button appFilesUpload [multiple]="true" (changed)="onFilesChanged($event)">
-    Subir imágenes al servidor
-</button>
-<button (click)="onSuccess()">Mensaje exitoso</button>
-<button (click)="onError()">Mensaje de error</button>
-<app-spinner *ngIf="showSpinner()"></app-spinner>
-<router-outlet></router-outlet>
