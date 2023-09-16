@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common'
 import { Component, WritableSignal, signal } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
-import { FilesUploadDirective, SpinnerComponent } from './shared'
+import { FilesUploadModule, SpinnerComponent } from './shared'
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SpinnerComponent, FilesUploadDirective],
+  imports: [CommonModule, RouterOutlet, SpinnerComponent, FilesUploadModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

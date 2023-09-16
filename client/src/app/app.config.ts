@@ -15,7 +15,6 @@ import {
   getStorage,
   provideStorage,
 } from '@angular/fire/storage'
-import { MatDialogModule } from '@angular/material/dialog'
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
 import { environment } from '../environments/environment'
@@ -24,7 +23,7 @@ import { routes } from './app.routes'
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
-      MatDialogModule,
+      // MatDialogModule,
       provideFirebaseApp(
         (): FirebaseApp => initializeApp(environment.firebase.config)
       ),

@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common'
 import { Component, Inject, WritableSignal, signal } from '@angular/core'
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef
+  MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog'
-import { UploadComponent } from './components/upload'
+import { UploadComponent } from './components'
 
 export interface DialogData {
   multiple: boolean;
@@ -14,14 +15,7 @@ export interface DialogData {
 @Component({
   selector: 'app-files-upload',
   standalone: true,
-  imports: [CommonModule, UploadComponent],
-  // providers: [Dialog],
-  /* providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-  ], */
+  imports: [CommonModule, MatDialogModule, UploadComponent],
   templateUrl: './files-upload.component.html',
   styles: [
     `
