@@ -28,7 +28,7 @@ import { FilesUploadModule, SpinnerComponent } from './shared'
         <button mat-icon-button (click)="menu.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>Edificaciones Store Prueba</span>
+        <span>Edificaciones Store</span>
       </mat-toolbar>
       <main>
         <router-outlet></router-outlet>
