@@ -1,4 +1,8 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core'
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+} from '@angular/core'
 import {
   FirebaseApp,
   initializeApp,
@@ -17,6 +21,9 @@ import {
 } from '@angular/fire/storage'
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
+import { provideEffects } from '@ngrx/effects'
+import { provideStore } from '@ngrx/store'
+import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { routes } from './app.routes'
 import { NotificationModule } from './services'
@@ -34,5 +41,14 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes),
     provideAnimations(),
+    provideStore(),
+    provideEffects(),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+    }),
   ],
 };
