@@ -27,6 +27,8 @@ import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { routes } from './app.routes'
 import { NotificationModule } from './services'
+import { userEffects } from './store'
+import { userReducers } from './store/user'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,8 +43,8 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes),
     provideAnimations(),
-    provideStore(),
-    provideEffects(),
+    provideStore({ user: userReducers }),
+    provideEffects(userEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
