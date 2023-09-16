@@ -1,12 +1,28 @@
 import { CommonModule } from '@angular/common'
-import { Component, WritableSignal, inject, signal } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { RouterOutlet } from '@angular/router'
+import { Router, RouterOutlet } from '@angular/router'
+import { Store, select } from '@ngrx/store'
+import { Observable } from 'rxjs'
+import { User } from './models/server'
 import { NotificationService } from './services'
 import { FilesUploadModule, SpinnerComponent } from './shared'
+import {
+  UserState,
+  initAction,
+  selectGetIsAuthorized,
+  selectGetUser,
+  signOutEmailAction,
+} from './store/user'
 
 @Component({
   selector: 'app-root',
@@ -31,6 +47,8 @@ import { FilesUploadModule, SpinnerComponent } from './shared'
         <span>Edificaciones Store</span>
       </mat-toolbar>
       <main>
+        {{ user$ | async }}
+        {{ isAuthorized$ | async }}
         <router-outlet></router-outlet>
       </main>
     </mat-sidenav-content>
@@ -49,30 +67,38 @@ import { FilesUploadModule, SpinnerComponent } from './shared'
     `,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private _notificationService: NotificationService;
+  private _store: Store<UserState>;
+  private _router: Router;
 
   public showSpinner: WritableSignal<boolean>;
+  public user$!: Observable<User>;
+  public isAuthorized$!: Observable<boolean>;
 
   constructor() {
+    this._store = inject(Store);
     this._notificationService = inject(NotificationService);
+    this._router = inject(Router);
 
     this.showSpinner = signal(false);
   }
 
-  public onToggleSpinner(): void {
-    this.showSpinner.set(!this.showSpinner());
+  public ngOnInit(): void {
+    this.user$ = this._store.pipe(select(selectGetUser)) as Observable<User>;
+
+    this.isAuthorized$ = this._store.pipe(
+      select(selectGetIsAuthorized)
+    ) as Observable<boolean>;
+
+    this._store.dispatch(initAction());
   }
 
-  public onFilesChanged(urls: string | string[]): void {
-    console.log(urls);
-  }
+  public onSignOut(): void {
+    localStorage.removeItem('token');
 
-  public onSuccess(): void {
-    this._notificationService.success('El procedimiento fué exitoso');
-  }
+    this._store.dispatch(signOutEmailAction());
 
-  public onError(): void {
-    this._notificationService.error('Se encontraron errores en el proceso');
+    this._router.navigate(['/auth/login']);
   }
 }

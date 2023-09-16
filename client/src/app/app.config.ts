@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http'
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -33,6 +34,7 @@ import { userReducers } from './store/user'
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
+      HttpClientModule,
       NotificationModule.forRoot(),
       provideFirebaseApp(
         (): FirebaseApp => initializeApp(environment.firebase.config)
