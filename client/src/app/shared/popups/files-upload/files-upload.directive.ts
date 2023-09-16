@@ -4,7 +4,7 @@ import {
   HostListener,
   Input,
   Output,
-  inject,
+  inject
 } from '@angular/core'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { FilesUploadComponent } from './files-upload.component'
@@ -12,6 +12,18 @@ import { FilesUploadComponent } from './files-upload.component'
 @Directive({
   selector: '[appFilesUpload]',
   standalone: true,
+  providers: [
+    // importProvidersFrom(MatDialogModule)
+  ],
+  /* providers: [
+    Dialog,
+    MatDialog,
+    {
+      provide: MAT_DIALOG_SCROLL_STRATEGY,
+      useFactory: (overlay: Overlay) => () => overlay.scrollStrategies.block(),
+      deps: [Overlay],
+    },
+  ], */
 })
 export class FilesUploadDirective {
   @Input() multiple!: boolean;

@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common'
 import { Component, Inject, WritableSignal, signal } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog'
 import { UploadComponent } from './components/upload'
 
 export interface DialogData {
@@ -12,10 +15,17 @@ export interface DialogData {
   selector: 'app-files-upload',
   standalone: true,
   imports: [CommonModule, UploadComponent],
+  // providers: [Dialog],
+  /* providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ], */
   templateUrl: './files-upload.component.html',
   styles: [
     `
-      @import 'src/styles/colors';
+      @import 'src/styles/colors.scss';
 
       .files-upload {
         display: flex;
@@ -89,7 +99,6 @@ export class FilesUploadComponent {
 
   public toggleHover(event: any): void {
     this.isHovering = signal(event);
-    // this.isHovering = event;
   }
 
   public onDrop(files: any): void {
@@ -102,12 +111,10 @@ export class FilesUploadComponent {
 
   public dropGeneral(files: FileList): void {
     this.isError = signal(false);
-    // this.isError = false;
 
     if (this.data.crop && files.length > 1) {
       this.isError.set(true);
-      // this.isError = signal(true);
-      // this.isError = true;
+
       return;
     }
 
@@ -117,7 +124,7 @@ export class FilesUploadComponent {
       files.item(0)?.type.split('/')[0] === 'image'
     ) {
       this.imageFile = signal(files.item(0) as File);
-      // this.imageFile = files.item(0) as File;
+
       return;
     }
 
@@ -125,18 +132,14 @@ export class FilesUploadComponent {
       this.files.mutate((values: File[]): number =>
         values.push(files.item(i) as File)
       );
-      // this.files.push(files.item(i) as File);
     }
-
-    // console.log(files);
   }
 
-  onUploadComplete(url: string): void {
+  public onUploadComplete(url: string): void {
     this.filesURLs.mutate((values: string[]): number => values.push(url));
-    // this.filesURLs.push(url);
   }
 
-  onComplete(): void {
+  public onComplete(): void {
     const res: string | WritableSignal<string[]> = this.data.multiple
       ? this.filesURLs
       : this.filesURLs()[0];
@@ -144,7 +147,7 @@ export class FilesUploadComponent {
     this._dialogRef.close(res);
   }
 
-  onClose(): void {
+  public onClose(): void {
     this._dialogRef.close();
   }
 }

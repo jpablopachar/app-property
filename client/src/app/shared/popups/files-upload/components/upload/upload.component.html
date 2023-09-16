@@ -2,7 +2,7 @@
     {{ file.name }}
     <progress
         class="upload__progress"
-        [value]="(percentage$ | async) || 0"
+        [value]="percentage() || 0"
         max="100"
     ></progress>
     <div class="upload__info" *ngIf="snapshot">

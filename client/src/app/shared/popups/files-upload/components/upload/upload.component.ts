@@ -7,18 +7,16 @@ import {
   Output,
   WritableSignal,
   inject,
-  signal
+  signal,
 } from '@angular/core'
 import {
   Storage,
   StorageReference,
   UploadTask,
   UploadTaskSnapshot,
-  percentage,
   ref,
   uploadBytesResumable,
 } from '@angular/fire/storage'
-import { Observable } from 'rxjs'
 import { FileSizePipe } from '../../pipes'
 
 @Component({
@@ -28,7 +26,7 @@ import { FileSizePipe } from '../../pipes'
   templateUrl: './upload.component.html',
   styles: [
     `
-      @import 'src/styles/colors';
+      @import 'src/styles/colors.scss';
 
       .upload {
         padding: 12px;
@@ -69,10 +67,7 @@ export class UploadComponent implements OnInit {
 
   public task!: WritableSignal<UploadTask>;
   public snapshot!: WritableSignal<UploadTaskSnapshot>;
-  public percentage$!: Observable<{
-    progress: number;
-    snapshot: UploadTaskSnapshot;
-  }>;
+  public percentage!: WritableSignal<number>;
   public downloadURL!: WritableSignal<string>;
 
   constructor() {
@@ -91,11 +86,9 @@ export class UploadComponent implements OnInit {
     const storageRef: StorageReference = ref(this._storage, url);
 
     this.task = signal(uploadBytesResumable(storageRef, this.file));
-    this.percentage$ = percentage(this.task());
 
     this.task().then((res: UploadTaskSnapshot): void => {
-      console.log(res);
-
+      this.percentage = signal(res.bytesTransferred);
       this.snapshot = signal(res);
       this.downloadURL = signal(res.ref.fullPath);
     });
