@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterOutlet } from '@angular/router'
 import { Store, select } from '@ngrx/store'
 import { Observable } from 'rxjs'
+import { HeaderComponent, MenuListComponent } from './components'
 import { User } from './models/server'
 import { NotificationService } from './services'
 import { FilesUploadModule, SpinnerComponent } from './shared'
@@ -36,23 +37,31 @@ import {
     MatButtonModule,
     SpinnerComponent,
     FilesUploadModule,
+    MenuListComponent,
+    HeaderComponent,
   ],
-  template: ` <mat-sidenav-container>
-    <mat-sidenav #menu><p>Elemento Sidenav</p></mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar color="primary">
-        <button mat-icon-button (click)="menu.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>Edificaciones Store</span>
-      </mat-toolbar>
-      <main>
-        {{ user$ | async }}
-        {{ isAuthorized$ | async }}
-        <router-outlet></router-outlet>
-      </main>
-    </mat-sidenav-content>
-  </mat-sidenav-container>`,
+  template: `
+    <mat-sidenav-container>
+      <mat-sidenav #menu>
+        <app-menu-list
+          (menuToggle)="menu.toggle()"
+          (signOut)="onSignOut()"
+          [isAuthorized]="isAuthorized$ | async"
+        ></app-menu-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <app-header
+          (menuToggle)="menu.toggle()"
+          [isAuthorized]="isAuthorized$ | async"
+          [user]="user$ | async"
+          (signOut)="onSignOut()"
+        ></app-header>
+        <main>
+          <router-outlet></router-outlet>
+        </main>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  `,
   styles: [
     `
       mat-sidenav-container,
