@@ -1,5 +1,5 @@
 export enum AuthUrl {
-  SIGN_IN = '/usuario/login',
-  SIGN_UP = '/usuario/registrar',
-  GET_USER = '/usuario',
+  SIGN_IN = '/user/login',
+  SIGN_UP = '/user/registrar',
+  GET_USER = '/user',
 }
