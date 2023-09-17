@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
 import { User } from '@app/models/server'
 import { EmailPasswordCredentials, UserCreateRequest } from '@app/store/user'
-import { environment } from '@src/environments/environment'
 import { Observable } from 'rxjs'
+import { environment } from '../../../environments/environment'
 import { AuthUrl } from './auth.urls'
 
 @Injectable({
