@@ -7,6 +7,21 @@ export const routes: Routes = [
       {
         path: 'login',
         loadComponent: () =>
+          import('./pages/auth/signIn/sign-in.component').then((c) => c.SignInComponent),
+      }
+    ]
+  }
+  /* {
+    path: 'auth',
+    loadChildren: () =>
+      import('./pages/auth/auth.routes').then((r) => r.authRoutes),
+  } */
+  /* {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
           import('./pages/auth/pages/signIn/sign-in.component').then((c) => c.SignInComponent),
       },
       {
@@ -20,7 +35,7 @@ export const routes: Routes = [
         redirectTo: 'static/welcome'
       }
     ],
-  },
+  }, */
   /* {
     path: '**',
     pathMatch: 'full',

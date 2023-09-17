@@ -21,7 +21,7 @@ import {
   provideStorage,
 } from '@angular/fire/storage'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { provideRouter } from '@angular/router'
+import { RouterModule, provideRouter } from '@angular/router'
 import { provideEffects } from '@ngrx/effects'
 import { provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
@@ -36,6 +36,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       HttpClientModule,
+      RouterModule,
       NotificationModule.forRoot(),
       AuthModule.forRoot(),
       provideFirebaseApp(

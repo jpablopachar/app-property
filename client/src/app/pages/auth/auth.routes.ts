@@ -4,16 +4,16 @@ export const authRoutes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./pages/signIn/sign-in.component').then((c) => c.SignInComponent),
+      import('./signIn/sign-in.component').then((c) => c.SignInComponent),
   },
-  /* {
+  {
     path: 'registration',
-    loadChildren: () =>
-      import('./pages/signUp/sign-up.routes').then((r) => r.signUpRoutes),
+    loadComponent: () =>
+      import('./signUp/sign-up.component').then((c) => c.SignUpComponent),
   },
   {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  }, */
+  },
 ];
