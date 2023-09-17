@@ -2,11 +2,12 @@ import { NgIf } from '@angular/common'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
+import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-menu-list',
   standalone: true,
-  imports: [NgIf, MatListModule, MatIconModule],
+  imports: [NgIf, RouterLink, MatListModule, MatIconModule],
   templateUrl: './menu-list.component.html',
   styles: [
     `
