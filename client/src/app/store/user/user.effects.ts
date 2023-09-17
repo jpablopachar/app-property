@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http'
 import { inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { User } from '@app/models/server'
 import { NotificationService } from '@app/services'
+import { AuthService } from '@app/services/auth/auth.service'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { environment } from '@src/environments/environment'
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import {
   initAction,
@@ -22,33 +21,33 @@ import {
 export const signUpEmail$ = createEffect(
   (
     actions$ = inject(Actions),
-    httpClient = inject(HttpClient),
-    router = inject(Router),
-    notificationService = inject(NotificationService)
+    router: Router = inject(Router),
+    notificationService: NotificationService = inject(NotificationService),
+    authService: AuthService = inject(AuthService)
   ) => {
     return actions$.pipe(
       ofType(signUpEmailAction),
-      mergeMap((user) =>
-        httpClient
-          .post<User>(`${environment.url}api/usuario/registrar`, user)
-          .pipe(
-            tap((res: User): void => {
-              localStorage.setItem('email', res.token);
+      mergeMap((params) => {
+        const { user } = params;
 
-              router.navigate(['/']);
-            }),
-            map((res: User) =>
-              signUpEmailSuccessAction({ email: res.email, user: res || null })
-            ),
-            catchError((error) => {
-              notificationService.error(
-                'Se ha producido un error al registrar el usuario'
-              );
+        return authService.signUp(user).pipe(
+          tap((res: User): void => {
+            localStorage.setItem('email', res.token);
 
-              return of(signUpEmailErrorAction(error));
-            })
-          )
-      )
+            router.navigate(['/']);
+          }),
+          map((res: User) =>
+            signUpEmailSuccessAction({ email: res.email, user: res || null })
+          ),
+          catchError((error) => {
+            notificationService.error(
+              'Se ha producido un error al registrar el usuario'
+            );
+
+            return of(signUpEmailErrorAction(error));
+          })
+        );
+      })
     );
   },
   { functional: true }
@@ -57,44 +56,47 @@ export const signUpEmail$ = createEffect(
 export const signInEmail$ = createEffect(
   (
     actions$ = inject(Actions),
-    httpClient = inject(HttpClient),
-    router = inject(Router),
-    notificationService = inject(NotificationService)
+    router: Router = inject(Router),
+    notificationService: NotificationService = inject(NotificationService),
+    authService: AuthService = inject(AuthService)
   ) => {
     return actions$.pipe(
       ofType(signInEmailAction),
-      mergeMap((credentials) =>
-        httpClient
-          .post<User>(`${environment.url}api/usuario/login`, credentials)
-          .pipe(
-            tap((res: User): void => {
-              localStorage.setItem('email', res.token);
+      mergeMap((params) => {
+        const { credentials } = params;
 
-              router.navigate(['/']);
-            }),
-            map((res: User) =>
-              signInEmailSuccessAction({ email: res.email, user: res || null })
-            ),
-            catchError((error) => {
-              notificationService.error('Las credenciales son incorrectas');
+        return authService.signIn(credentials).pipe(
+          tap((res: User): void => {
+            localStorage.setItem('email', res.token);
 
-              return of(signInEmailErrorAction(error));
-            })
-          )
-      )
+            router.navigate(['/']);
+          }),
+          map((res: User) =>
+            signInEmailSuccessAction({ email: res.email, user: res || null })
+          ),
+          catchError((error) => {
+            notificationService.error('Las credenciales son incorrectas');
+
+            return of(signInEmailErrorAction(error));
+          })
+        );
+      })
     );
   },
   { functional: true }
 );
 
 export const init$ = createEffect(
-  (actions$ = inject(Actions), httpClient = inject(HttpClient)) => {
+  (
+    actions$ = inject(Actions),
+    authService: AuthService = inject(AuthService)
+  ) => {
     return actions$.pipe(
       ofType(initAction),
       switchMap(async () => localStorage.getItem('token')),
-      mergeMap((token) => {
+      mergeMap((token: string | null) => {
         if (token) {
-          return httpClient.get<User>(`${environment.url}api/usuario`).pipe(
+          return authService.getUser().pipe(
             tap((res: User): void => {
               console.log('Datos del usuario obtenidos del servidor => ', res);
             }),

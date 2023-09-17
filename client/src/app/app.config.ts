@@ -28,6 +28,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { routes } from './app.routes'
 import { NotificationModule } from './services'
+import { AuthModule } from './services/auth/auth.module'
 import { userEffects } from './store'
 import { userReducers } from './store/user'
 
@@ -36,6 +37,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       HttpClientModule,
       NotificationModule.forRoot(),
+      AuthModule.forRoot(),
       provideFirebaseApp(
         (): FirebaseApp => initializeApp(environment.firebase.config)
       ),
