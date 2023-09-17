@@ -40,6 +40,7 @@ import { User } from '@app/models/server'
       .container {
         display: flex;
         flex-direction: row;
+        flex: 1;
         justify-content: flex-end;
       }
 

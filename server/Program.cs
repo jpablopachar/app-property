@@ -58,7 +58,7 @@ builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IUserSession, UserSession>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My secret key"));
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MiClaveSecretaMiClaveSecretaMiClaveSecreta"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
     opt.TokenValidationParameters = new TokenValidationParameters

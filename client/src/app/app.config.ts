@@ -1,4 +1,8 @@
-import { HttpClientModule } from '@angular/common/http'
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http'
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -27,10 +31,12 @@ import { provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { routes } from './app.routes'
+import { authInterceptor } from './interceptors'
 import { NotificationModule } from './services'
 import { AuthModule } from './services/auth/auth.module'
 import { userEffects } from './store'
 import { userReducers } from './store/user'
+// import { authInterceptor } from './interceptors'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -47,6 +53,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes),
     provideAnimations(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({ user: userReducers }),
     provideEffects(userEffects),
     provideStoreDevtools({

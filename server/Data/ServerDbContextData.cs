@@ -18,7 +18,7 @@ namespace server.Data
                     Phone = "+593991883896"
                 };
 
-                await userManager.CreateAsync(user, "Jppachar1993@");
+                await userManager.CreateAsync(user, "Jppachar1@");
             }
 
             if (!context.Properties!.Any())

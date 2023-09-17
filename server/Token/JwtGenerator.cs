@@ -16,9 +16,9 @@ namespace server.Token
                 new("email", user.Email!)
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("My secret key"));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("MiClaveSecretaMiClaveSecretaMiClaveSecreta"));
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

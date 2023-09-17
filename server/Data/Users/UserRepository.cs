@@ -47,7 +47,7 @@ namespace server.Data.Users
             {
                 throw new MiddlewareException(
                 HttpStatusCode.Unauthorized,
-                new { mensaje = "El usuario del token no existe en la base de datos" }
+                new { message = "El usuario del token no existe en la base de datos" }
             );
             }
 
@@ -62,20 +62,20 @@ namespace server.Data.Users
             {
                 throw new MiddlewareException(
                     HttpStatusCode.Unauthorized,
-                    new { mensaje = "El usuario no existe en la base de datos" }
+                    new { message = "El usuario no existe en la base de datos" }
                 );
             }
 
             var res = await _signInManager.CheckPasswordSignInAsync(user, userLoginRequestDto.Password!, false);
 
-            if (!res.Succeeded)
+            if (res.Succeeded)
             {
                 return TransformerUserToUserDto(user);
             }
 
             throw new MiddlewareException(
                 HttpStatusCode.Unauthorized,
-                new { mensaje = "La contraseña es incorrecta" }
+                new { message = "La contraseña es incorrecta" }
             );
         }
 
@@ -87,7 +87,7 @@ namespace server.Data.Users
             {
                 throw new MiddlewareException(
                     HttpStatusCode.BadRequest,
-                    new { mensaje = "El email ya existe en la base de datos" }
+                    new { message = "El email ya existe en la base de datos" }
                 );
             }
 
@@ -97,7 +97,7 @@ namespace server.Data.Users
             {
                 throw new MiddlewareException(
                     HttpStatusCode.BadRequest,
-                    new { mensaje = "El username ya existe en la base de datos" }
+                    new { message = "El username ya existe en la base de datos" }
                 );
             }
 
@@ -119,7 +119,7 @@ namespace server.Data.Users
 
             throw new MiddlewareException(
                 HttpStatusCode.BadRequest,
-                new { mensaje = "No se pudo crear el usuario" }
+                new { message = "No se pudo crear el usuario" }
             );
         }
     }
