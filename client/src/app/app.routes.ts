@@ -1,24 +1,25 @@
 import { Routes } from '@angular/router'
+import { RoutesUrl } from './routes.enum'
 
 export const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'auth',
+        path: RoutesUrl.AUTH,
         loadChildren: () =>
-          import('./pages/auth/auth.routes').then((r) => r.authRoutes),
+          import('./pages/auth/auth.routes').then((r): Routes => r.authRoutes),
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'static/welcome',
+        redirectTo: RoutesUrl.STATIC_WELCOME,
       },
     ],
   },
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: 'static/404',
+    redirectTo: RoutesUrl.STATIC_404,
   },
 ];
