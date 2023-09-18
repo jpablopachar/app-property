@@ -8,8 +8,7 @@ import { SpinnerComponent } from '@app/shared'
 import { selectGetLoading } from '@app/store/user'
 import { Store, select } from '@ngrx/store'
 import { Observable } from 'rxjs'
-import { PropertyState } from '../../store'
-import { readAction, selectGetProperties } from '../../store/property'
+import { PropertyState, readAction, selectGetProperties } from '../../store/property'
 // import { readAction, selectGetProperties } from '../../store/property'
 
 @Component({
@@ -100,15 +99,8 @@ export class PropertyListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this._store.dispatch(readAction());
-    // this.loading$ = this._store.select(selectGetLoading);
-    // this.properties$ = this._store.select(selectGetProperties);
     this.loading$ = this._store.pipe(select(selectGetLoading));
     this.properties$ = this._store.pipe(select(selectGetProperties));
-    const test = this.properties$.subscribe((res) => {
-      console.log('res', res);
-    });
-    console.log('this.properties$', this.properties$);
 
     this._store.dispatch(readAction());
   }

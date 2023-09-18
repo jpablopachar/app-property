@@ -1,6 +1,6 @@
 import { Property } from "@app/models/server"
 
-export interface PropertyGeneralState {
+export interface PropertyState {
   properties: Property[] | null;
   property: Property | null;
   loading: boolean | null;

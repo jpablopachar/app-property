@@ -1,6 +1,6 @@
-import { UserEffects, UserState, userReducers } from "./user"
+import { UserEffects, userReducers } from "./user"
 
-export interface State { user: UserState }
+// export interface State { user: UserState }
 
 export const reducers = { user: userReducers }
 

@@ -25,10 +25,7 @@ export const getProperty$ = createEffect(
       mergeMap(() =>
         propertyService.getProperties().pipe(
           delay(1000),
-          map((properties: Property[]) => {
-            console.log('properties', properties);
-            return readSuccessAction({ properties });
-          }),
+          map((properties: Property[]) => readSuccessAction({ properties })),
           catchError((error) => of(readErrorAction({ error })))
         )
       )

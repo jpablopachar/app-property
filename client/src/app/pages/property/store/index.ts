@@ -1,6 +1,6 @@
-import { PropertyEffects, PropertyGeneralState, propertyReducers } from "./property"
+import { PropertyEffects, propertyReducers } from "./property"
 
-export interface PropertyState { list: PropertyGeneralState }
+// export interface PropertyState1 { list: PropertyState }
 
 export const reducers = { property: propertyReducers }
 

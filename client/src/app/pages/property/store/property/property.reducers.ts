@@ -1,32 +1,32 @@
 import {
-  Action,
-  ActionReducer,
-  createReducer,
-  on
-} from '@ngrx/store'
+    Action,
+    ActionReducer,
+    createReducer,
+    on
+} from '@ngrx/store';
 import {
-  createErrorAction,
-  createSuccessAction,
-  createsAction,
-  readAction,
-  readErrorAction,
-  readSuccessAction,
-} from './property.actions'
-import { PropertyGeneralState } from './property.state'
+    createErrorAction,
+    createSuccessAction,
+    createsAction,
+    readAction,
+    readErrorAction,
+    readSuccessAction,
+} from './property.actions';
+import { PropertyState } from './property.state';
 
-const initialState: PropertyGeneralState = {
+const initialState: PropertyState = {
   properties: null,
   property: null,
   loading: false,
   error: null,
 };
 
-export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
-  createReducer<PropertyGeneralState>(
+export const propertyReducers: ActionReducer<PropertyState, Action> =
+  createReducer<PropertyState>(
     initialState,
     on(
       createsAction,
-      (state: PropertyGeneralState): PropertyGeneralState => ({
+      (state: PropertyState): PropertyState => ({
         ...state,
         loading: true,
         error: null,
@@ -34,7 +34,7 @@ export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
     ),
     on(
       createSuccessAction,
-      (state: PropertyGeneralState, action): PropertyGeneralState => ({
+      (state: PropertyState, action): PropertyState => ({
         ...state,
         loading: false,
         error: null,
@@ -43,7 +43,7 @@ export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
     ),
     on(
       createErrorAction,
-      (state: PropertyGeneralState, action): PropertyGeneralState => ({
+      (state: PropertyState, action): PropertyState => ({
         ...state,
         loading: false,
         error: action.error,
@@ -51,7 +51,7 @@ export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
     ),
     on(
       readAction,
-      (state: PropertyGeneralState): PropertyGeneralState => ({
+      (state: PropertyState): PropertyState => ({
         ...state,
         loading: true,
         error: null,
@@ -59,7 +59,7 @@ export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
     ),
     on(
       readSuccessAction,
-      (state: PropertyGeneralState, action): PropertyGeneralState => ({
+      (state: PropertyState, action): PropertyState => ({
         ...state,
         loading: false,
         properties: action.properties,
@@ -67,7 +67,7 @@ export const propertyReducers: ActionReducer<PropertyGeneralState, Action> =
     ),
     on(
       readErrorAction,
-      (state: PropertyGeneralState, action): PropertyGeneralState => ({
+      (state: PropertyState, action): PropertyState => ({
         ...state,
         loading: false,
         error: action.error,

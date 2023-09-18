@@ -12,7 +12,7 @@ export const propertyRoutes: Routes = [
   {
     path: RoutesUrl.PROPERTY_LIST,
     /* providers: [
-      provideState('property', propertyReducers),
+      provideState('def', propertyReducers),
       provideEffects(propertyEffects),
     ], */
     loadComponent: () =>

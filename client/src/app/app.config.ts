@@ -27,7 +27,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router'
 import { provideEffects } from '@ngrx/effects'
-import { provideStore } from '@ngrx/store'
+import { provideState, provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { routes } from './app.routes'
@@ -54,7 +54,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideStore({ user: userReducers }),
+    // provideStore({ user: userReducers }),
+    provideStore({}),
+    provideState('user', userReducers),
     provideEffects(userEffects),
     provideStoreDevtools({
       maxAge: 25,
