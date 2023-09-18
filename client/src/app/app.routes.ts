@@ -11,6 +11,13 @@ export const routes: Routes = [
           import('./pages/auth/auth.routes').then((r): Routes => r.authRoutes),
       },
       {
+        path: RoutesUrl.STATIC,
+        loadChildren: () =>
+          import('./pages/static/static.routes').then(
+            (r): Routes => r.staticRoutes
+          ),
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: RoutesUrl.STATIC_WELCOME,
