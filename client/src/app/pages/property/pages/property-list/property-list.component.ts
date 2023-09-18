@@ -5,10 +5,9 @@ import { MatCardModule } from '@angular/material/card'
 import { Property } from '@app/models/server'
 import { SpinnerComponent } from '@app/shared'
 // import { selectGetLoading } from '@app/store/user'
-import { selectGetLoading } from '@app/store/user'
 import { Store, select } from '@ngrx/store'
 import { Observable } from 'rxjs'
-import { PropertyState, readAction, selectGetProperties } from '../../store/property'
+import { PropertyState, readAction, selectGetProperties, selectLoading } from '../../store/property'
 // import { readAction, selectGetProperties } from '../../store/property'
 
 @Component({
@@ -99,7 +98,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading$ = this._store.pipe(select(selectGetLoading));
+    this.loading$ = this._store.pipe(select(selectLoading));
     this.properties$ = this._store.pipe(select(selectGetProperties));
 
     this._store.dispatch(readAction());
