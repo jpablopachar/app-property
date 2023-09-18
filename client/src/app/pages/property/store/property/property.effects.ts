@@ -30,7 +30,8 @@ export const getProperty$ = createEffect(
         )
       )
     );
-  }
+  },
+  { functional: true }
 );
 
 export const createProperty$ = createEffect(
@@ -60,5 +61,6 @@ export const createProperty$ = createEffect(
         )
       )
     );
-  }
+  },
+  { functional: true }
 );
