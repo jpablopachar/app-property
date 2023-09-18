@@ -11,6 +11,10 @@ export const propertyRoutes: Routes = [
   },
   {
     path: RoutesUrl.PROPERTY_LIST,
+    /* providers: [
+      provideState('property', propertyReducers),
+      provideEffects(propertyEffects),
+    ], */
     loadComponent: () =>
       import('./pages/property-list/property-list.component').then(
         (c) => c.PropertyListComponent

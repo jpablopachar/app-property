@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router'
 import { provideEffects } from '@ngrx/effects'
-import { provideStore } from '@ngrx/store'
+import { provideState } from '@ngrx/store'
 import { propertyEffects } from './pages/property/store'
 import { propertyReducers } from './pages/property/store/property'
 import { RoutesUrl } from './routes.enum'
@@ -17,7 +17,8 @@ export const routes: Routes = [
       {
         path: RoutesUrl.PROPERTY,
         providers: [
-          provideStore({ property: propertyReducers }),
+          // provideStore({ property: propertyReducers }),
+          provideState('property', propertyReducers),
           provideEffects(propertyEffects),
         ],
         loadChildren: () =>

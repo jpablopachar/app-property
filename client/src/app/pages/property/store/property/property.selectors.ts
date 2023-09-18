@@ -17,5 +17,5 @@ export const selectLoading = createSelector(
 
 export const selectGetProperties = createSelector(
   selectGetPropertyState,
-  (state: PropertyGeneralState): Property[] | null => state.properties
+  (state: PropertyGeneralState): Property[] | null => state?.properties
 );
