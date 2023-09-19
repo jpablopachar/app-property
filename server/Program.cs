@@ -18,14 +18,18 @@ using server.Token;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ServerDbContext>(opt =>
+/* builder.Services.AddDbContext<ServerDbContext>(opt =>
 {
     opt.LogTo(Console.WriteLine, new[] {
         DbLoggerCategory.Database.Command.Name},
         LogLevel.Information).EnableSensitiveDataLogging();
 
     opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")!);
-});
+}); */
+
+var mysqlConnection = builder.Configuration.GetConnectionString("MySQLConnection");
+
+builder.Services.AddDbContext<ServerDbContext>(options => { options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection)); });
 
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 
