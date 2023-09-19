@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { authGuard } from '@app/guards'
 import { RoutesUrl } from '@app/routes.enum'
 
 export const propertyRoutes: Routes = [
@@ -8,17 +9,15 @@ export const propertyRoutes: Routes = [
       import('./pages/property-new/property-new.component').then(
         (c) => c.PropertyNewComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: RoutesUrl.PROPERTY_LIST,
-    /* providers: [
-      provideState('def', propertyReducers),
-      provideEffects(propertyEffects),
-    ], */
     loadComponent: () =>
       import('./pages/property-list/property-list.component').then(
         (c) => c.PropertyListComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: '**',
