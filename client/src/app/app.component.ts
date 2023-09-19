@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common'
 import {
   Component,
   OnInit,
+  Signal,
   WritableSignal,
   inject,
   signal,
@@ -11,11 +12,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterOutlet } from '@angular/router'
-import { Store, select } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Store } from '@ngrx/store'
 import { HeaderComponent, MenuListComponent } from './components'
 import { User } from './models/server'
-import { NotificationService } from './services'
 import { FilesUploadModule, SpinnerComponent } from './shared'
 import {
   UserState,
@@ -46,14 +45,14 @@ import {
         <app-menu-list
           (menuToggle)="menu.toggle()"
           (signOut)="onSignOut()"
-          [isAuthorized]="isAuthorized$ | async"
+          [isAuthorized]="isAuthorized()"
         ></app-menu-list>
       </mat-sidenav>
       <mat-sidenav-content>
         <app-header
           (menuToggle)="menu.toggle()"
-          [isAuthorized]="isAuthorized$ | async"
-          [user]="user$ | async"
+          [isAuthorized]="isAuthorized()"
+          [user]="user()"
           (signOut)="onSignOut()"
         ></app-header>
         <main>
@@ -77,28 +76,24 @@ import {
   ],
 })
 export class AppComponent implements OnInit {
-  private _notificationService: NotificationService;
   private _store: Store<UserState>;
   private _router: Router;
 
   public showSpinner: WritableSignal<boolean>;
-  public user$!: Observable<User>;
-  public isAuthorized$!: Observable<boolean>;
+
+  public user!: Signal<User | null>;
+  public isAuthorized!: Signal<boolean>;
 
   constructor() {
     this._store = inject(Store);
-    this._notificationService = inject(NotificationService);
     this._router = inject(Router);
 
     this.showSpinner = signal(false);
   }
 
   public ngOnInit(): void {
-    this.user$ = this._store.pipe(select(selectGetUser)) as Observable<User>;
-
-    this.isAuthorized$ = this._store.pipe(
-      select(selectGetIsAuthorized)
-    ) as Observable<boolean>;
+    this.user = this._store.selectSignal(selectGetUser);
+    this.isAuthorized = this._store.selectSignal(selectGetIsAuthorized);
 
     this._store.dispatch(initAction());
   }

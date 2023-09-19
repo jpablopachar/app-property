@@ -1,13 +1,17 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common'
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, OnInit, Signal, inject } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { Property } from '@app/models/server'
 import { SpinnerComponent } from '@app/shared'
 // import { selectGetLoading } from '@app/store/user'
-import { Store, select } from '@ngrx/store'
-import { Observable } from 'rxjs'
-import { PropertyState, readAction, selectGetProperties, selectLoading } from '../../store/property'
+import { Store } from '@ngrx/store'
+import {
+  PropertyState,
+  readAction,
+  selectGetProperties,
+  selectLoading,
+} from '../../store/property'
 // import { readAction, selectGetProperties } from '../../store/property'
 
 @Component({
@@ -22,9 +26,9 @@ import { PropertyState, readAction, selectGetProperties, selectLoading } from '.
     MatButtonModule,
   ],
   template: `
-    <app-spinner *ngIf="loading$ | async"></app-spinner>
+    <app-spinner *ngIf="loading()"></app-spinner>
     <section class="container">
-      <ul class="cards" *ngIf="properties$ | async as properties">
+      <ul class="cards" *ngIf="properties() as properties">
         <li class="cards__item" *ngFor="let property of properties">
           <mat-card class="example-card">
             <mat-card-header>
@@ -87,8 +91,8 @@ export class PropertyListComponent implements OnInit {
 
   public defaultPicture: string;
 
-  public properties$!: Observable<Property[] | null>;
-  public loading$!: Observable<boolean | null>;
+  public properties!: Signal<Property[] | null>;
+  public loading!: Signal<boolean | null>;
 
   constructor() {
     this._store = inject(Store);
@@ -98,8 +102,8 @@ export class PropertyListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading$ = this._store.pipe(select(selectLoading));
-    this.properties$ = this._store.pipe(select(selectGetProperties));
+    this.loading = this._store.selectSignal(selectLoading);
+    this.properties = this._store.selectSignal(selectGetProperties);
 
     this._store.dispatch(readAction());
   }

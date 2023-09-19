@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, Signal, inject, signal } from '@angular/core'
 import { FormsModule, NgForm } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -8,8 +8,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { EntityPhotoComponent, SpinnerComponent } from '@app/shared'
-import { Store, select } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Store } from '@ngrx/store'
 import {
   PropertyCreateRequest,
   PropertyState,
@@ -88,7 +87,7 @@ import {
 export class PropertyNewComponent {
   private _store: Store<PropertyState>;
 
-  public loading$!: Observable<boolean | null>;
+  public loading: Signal<boolean | null> = signal(false);
   public photoLoaded!: string;
 
   constructor() {
@@ -98,7 +97,8 @@ export class PropertyNewComponent {
   public register(form: NgForm): void {
     if (form.valid) {
       const { name, price, address } = form.value;
-      this.loading$ = this._store.pipe(select(selectLoading));
+
+      this.loading = this._store.selectSignal(selectLoading);
 
       const property: PropertyCreateRequest = {
         name,

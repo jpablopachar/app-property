@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, OnInit, Signal, inject } from '@angular/core'
 import { FormsModule, NgForm } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -10,10 +10,10 @@ import { SpinnerComponent } from '@app/shared'
 import {
   EmailPasswordCredentials,
   UserState,
+  selectGetLoading,
   signInEmailAction,
 } from '@app/store/user'
 import { Store } from '@ngrx/store'
-import { Observable } from 'rxjs'
 
 @Component({
   selector: 'app-sign-in',
@@ -27,10 +27,10 @@ import { Observable } from 'rxjs'
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   template: `
-    <app-spinner *ngIf="loading$ | async"></app-spinner>
+    <app-spinner *ngIf="loading()"></app-spinner>
     <section>
       <mat-card>
         <form
@@ -97,12 +97,17 @@ import { Observable } from 'rxjs'
     `,
   ],
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   private _store!: Store<UserState>;
-  public loading$!: Observable<boolean | null>;
+
+  public loading!: Signal<boolean | null>;
 
   constructor() {
     this._store = inject(Store);
+  }
+
+  public ngOnInit(): void {
+    this.loading = this._store.selectSignal(selectGetLoading);
   }
 
   public login(form: NgForm): void {

@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common'
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, OnInit, Signal, inject } from '@angular/core'
 import { FormsModule, NgForm } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -13,8 +13,7 @@ import {
   selectGetLoading,
   signUpEmailAction,
 } from '@app/store/user'
-import { Store, select } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Store } from '@ngrx/store'
 
 @Component({
   selector: 'app-sign-up',
@@ -61,14 +60,14 @@ import { Observable } from 'rxjs'
 export class SignUpComponent implements OnInit {
   private _store: Store<UserState>;
 
-  public loading$!: Observable<boolean | null>;
+  public loading!: Signal<boolean | null>;
 
   constructor() {
     this._store = inject(Store);
   }
 
   ngOnInit(): void {
-    this.loading$ = this._store.pipe(select(selectGetLoading));
+    this.loading = this._store.selectSignal(selectGetLoading);
   }
 
   public register(form: NgForm): void {
